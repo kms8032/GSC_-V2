@@ -1,0 +1,12 @@
+# Apache Rewrite 모듈 활성화
+RewriteEngine On
+
+# 프로젝트의 기본 경로를 설정 (XAMPP에서 사용하는 폴더명과 동일하게 수정해야 함)
+RewriteBase /GSC_v2/
+
+# .php 확장자를 생략하고 접근 가능하도록 설정
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+# PHP 파일이 없는 경우 404 에러 반환
+ErrorDocument 404 /html/404.html

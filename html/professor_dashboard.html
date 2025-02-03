@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>교수 대시보드</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>환영합니다, <span id="username"></span> 교수님!</h2>
+        <p>당신의 역할: <span id="role"></span></p>
+
+        <div class="professor-section">
+            <h3>교수 전용 기능</h3>
+            <ul>
+                <li><a href="manage_courses.html">강의 관리</a></li>
+                <li><a href="assignments.html">과제 확인</a></li>
+                <li><a href="grade_students.html">성적 입력</a></li>
+            </ul>
+        </div>
+
+        <a href="../php/logout.php"><button>로그아웃</button></a>
+    </div>
+
+    <script>
+        // PHP에서 세션 데이터를 가져와서 교수 정보를 표시
+        fetch("../php/users_info.php")
+            .then(response => response.json())
+            .then(data => {
+                if (data.user_id) {
+                    document.getElementById("username").innerText = data.username;
+                    document.getElementById("role").innerText = data.role;
+
+                    // 교수 권한 확인
+                    if (data.role !== "교수") {
+                        alert("교수님만 접근 가능합니다.");
+                        window.location.href = "login.html";
+                    }
+                } else {
+                    window.location.href = "login.html"; // 로그인 안 하면 로그인 페이지로 이동
+                }
+            })
+            .catch(error => console.error("데이터를 불러오는 중 오류 발생:", error));
+    </script>
+</body>
+</html>

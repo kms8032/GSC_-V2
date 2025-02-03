@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>사용자 관리</title>
+    <link rel="stylesheet" href="../css/user_management.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>사용자 관리</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>학번</th>
+                    <th>이름</th>
+                    <th>역할</th>
+                    <th>승인 상태</th>
+                    <th>관리</th>
+                </tr>
+            </thead>
+            <tbody id="user-table-body">
+                <!-- 사용자 목록이 여기에 추가됨 -->
+            </tbody>
+        </table>
+
+        <a href="admin_dashboard.html" class="dashboard-btn">대시보드로 돌아가기</a>
+    </div>
+
+    <script>
+        // 사용자 정보 가져오기
+        fetch("../php/get_users.php")
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert("사용자 정보를 불러오지 못했습니다.");
+                    return;
+                }
+
+                const tableBody = document.getElementById("user-table-body");
+                tableBody.innerHTML = ""; // 기존 데이터 제거 후 새로 추가
+
+                data.forEach(user => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${user.student_id}</td>
+                        <td>${user.username}</td>
+                        <td>${user.role}</td>
+                        <td>${user.approved ? "승인됨" : "미승인"}</td>
+                        <td>
+                            ${!user.approved ? `<button class="approve-btn" onclick="approveUser('${user.student_id}')">승인</button>` : ""}
+                            <button class="delete-btn" onclick="deleteUser('${user.student_id}')">삭제</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error("사용자 정보를 불러오는 중 오류 발생:", error));
+
+        // 사용자 승인 기능
+        function approveUser(studentId) {
+            fetch("../php/approve_user.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ student_id: studentId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("사용자가 승인되었습니다.");
+                    location.reload();
+                } else {
+                    alert("승인 실패: " + data.message);
+                }
+            })
+            .catch(error => console.error("승인 중 오류 발생:", error));
+        }
+
+        // 사용자 삭제 기능
+        function deleteUser(studentId) {
+            if (confirm(studentId + " 사용자를 삭제하시겠습니까?")) {
+                fetch("../php/delete_user.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ student_id: studentId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("사용자가 삭제되었습니다.");
+                        location.reload();
+                    } else {
+                        alert("삭제 실패: " + data.message);
+                    }
+                })
+                .catch(error => console.error("삭제 중 오류 발생:", error));
+            }
+        }
+    </script>
+</body>
+</html>
