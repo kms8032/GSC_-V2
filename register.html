@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h2>회원가입</h2>
+        <form action="process_register.php" method="POST" onsubmit="return validateForm()">
+            <input type="text" name="student_id" placeholder="학번" required><br>
+            <input type="text" name="username" placeholder="이름" required><br>
+            <input type="email" name="email" placeholder="이메일" required><br>
+            
+            <input type="password" name="password" id="password" placeholder="비밀번호" required oninput="checkPasswordMatch()"><br>
+            <input type="password" id="confirmPassword" placeholder="비밀번호 확인" required oninput="checkPasswordMatch()"><br>
+            <p id="passwordError" class="error-message"></p> <!-- 비밀번호 불일치 메시지 -->
+
+            <!-- 학년 선택 버튼 -->
+            <div id="gradeSection">
+                <label>학년 선택:</label>
+                <button type="button" onclick="selectGrade(1)">1학년</button>
+                <button type="button" onclick="selectGrade(2)">2학년</button>
+                <button type="button" onclick="selectGrade(3)">3학년</button>
+                <input type="hidden" name="grade" id="selectedGrade" required>
+                <p id="gradeDisplay">선택된 학년: 없음</p>
+            </div>
+
+            <!-- 역할 선택 -->
+            <label for="role">역할 선택:</label>
+            <select name="role" id="roleSelect" onchange="checkRole()" required>
+                <option value="학생">학생</option>
+                <option value="교수">교수</option>
+                <option value="관리자">관리자</option>
+            </select><br>
+
+            <button type="submit">가입하기</button>
+        </form>
+        <p>이미 계정이 있으신가요? <a href="login.html">로그인</a></p>
+    </div>
+</body>
+</html>

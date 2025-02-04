@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항 추가</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="container">
+        <h2>공지사항 추가</h2>
+        <form id="noticeForm">
+            <input type="text" id="title" placeholder="제목" required><br>
+            <textarea id="content" placeholder="내용 입력" required></textarea><br>
+            <button type="submit">등록</button>
+        </form>
+        <a href="manage_notices.html">목록으로</a>
+    </div>
+
+    <script>
+        document.getElementById("noticeForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const title = document.getElementById("title").value;
+            const content = document.getElementById("content").value;
+
+            fetch("add_notice.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ title, content })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("공지사항이 추가되었습니다.");
+                    window.location.href = "manage_notice.php";
+                } else {
+                    alert("추가 실패: " + data.error);
+                }
+            })
+            .catch(error => console.error("공지사항 추가 오류:", error));
+        });
+    </script>
+</body>
+</html>

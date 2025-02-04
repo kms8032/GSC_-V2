@@ -1,0 +1,37 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: white;
+}
+
+.container {
+    text-align: center;
+}
+
+.timetable {
+    display: grid;
+    grid-template-columns: 100px repeat(5, 1fr);
+    grid-template-rows: 50px repeat(10, 1fr);
+    gap: 2px;
+    background: black;
+    padding: 5px;
+}
+
+.time-label, .day {
+    background: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.event {
+    background: rgba(0, 123, 255, 0.8);
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+}
