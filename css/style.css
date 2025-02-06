@@ -1,70 +1,59 @@
+/* 기본 스타일 */
 body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f4f4f4;
+    background-color: #f8f9fa;
+    margin: 0;
 }
 
+/* 컨테이너 */
 .container {
     background: white;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-input, select {
-    width: 90%;
-    padding: 10px;
+/* 네비게이션 */
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
     margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
 }
 
-button {
-    width: 100%;
+nav ul li a {
+    display: block;
     padding: 10px;
-    background-color: #007BFF;
-    border: none;
+    background-color: #007bff;
     color: white;
-    cursor: pointer;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 18px;
 }
 
-button:hover {
+nav ul li a:hover {
     background-color: #0056b3;
 }
 
-/* 학년 버튼 */
-.grade-selection button {
-    margin: 5px;
-    padding: 8px 15px;
-    border: 1px solid #007BFF;
-    background: none;
-    color: #007BFF;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.grade-selection button:hover {
-    background: #007BFF;
+/* 로그아웃 버튼 */
+.logout-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #dc3545;
     color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
-.error-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-#error-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-/* 학년 선택 숨기기 (기본적으로 보이도록 설정) */
-#gradeSection {
-    display: block;
+.logout-btn:hover {
+    background-color: #c82333;
 }

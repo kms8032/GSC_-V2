@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항 수정</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="container">
+        <h2>✏️ 공지사항 수정</h2>
+        <form id="editNoticeForm">
+            <input type="hidden" id="noticeId">
+            <input type="text" id="title" placeholder="제목" required><br>
+            <textarea id="content" placeholder="내용 입력" required></textarea><br>
+            <button type="submit">수정</button>
+        </form>
+        <button onclick="window.location.href='manage_notices.html'">⬅ 돌아가기</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const params = new URLSearchParams(window.location.search);
+            const noticeId = params.get("id");
+
+            fetch(`get_notice.php?id=${noticeId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("noticeId").value = data.id;
+                    document.getElementById("title").value = data.title;
+                    document.getElementById("content").value = data.content;
+                })
+                .catch(error => console.error("공지사항 불러오기 오류:", error));
+        });
+
+        document.getElementById("editNoticeForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const id = document.getElementById("noticeId").value;
+            const title = document.getElementById("title").value;
+            const content = document.getElementById("content").value;
+
+            fetch("update_notice.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id, title, content })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("공지사항이 수정되었습니다.");
+                    window.location.href = "manage_notices.html";
+                } else {
+                    alert("수정 실패: " + data.error);
+                }
+            })
+            .catch(error => console.error("수정 오류:", error));
+        });
+    </script>
+</body>
+</html>

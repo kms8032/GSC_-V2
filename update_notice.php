@@ -3,6 +3,7 @@ require 'db.php';
 require 'admin_header.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
+$id = intval($data['id']);
 $title = trim($data['title']);
 $content = trim($data['content']);
 
@@ -11,8 +12,8 @@ if (empty($title) || empty($content)) {
     exit;
 }
 
-$stmt = $conn->prepare("INSERT INTO notices (title, content) VALUES (?, ?)");
-$stmt->bind_param("ss", $title, $content);
+$stmt = $conn->prepare("UPDATE notices SET title = ?, content = ? WHERE id = ?");
+$stmt->bind_param("ssi", $title, $content, $id);
 
 if ($stmt->execute()) {
     echo json_encode(["success" => true]);

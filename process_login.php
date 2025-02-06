@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("refresh:2; url=admin_dashboard.html");
             } else {
                 echo "로그인 성공! 메인 페이지로 이동합니다.";
-                header("refresh:2; url=index.html");
+                header("refresh:2; url=student_dashboard.html");
             }
         } else {
             echo "비밀번호가 올바르지 않습니다.";
